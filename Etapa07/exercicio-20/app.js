@@ -37,7 +37,7 @@ initCounter.addEventListener('click', event => {
     }
 
     h1.textContent = counter++
-  }, 1000); 
+  }, 1500); 
 })
 
 /* 
