@@ -14,10 +14,18 @@ input[type=text]:focus {
   background: #484E53;
 }
 
+.todos-container li:hover {
+  background: #51585c;
+}
+
 i[data-trash] {
   cursor: pointer;
 }
 
 .hidden {
   display: 	none;
+}
+
+.far:hover {
+  color: #FA3939;
 }
