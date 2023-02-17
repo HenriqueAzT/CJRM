@@ -1,6 +1,7 @@
 const form = document.querySelector('.form-add-todo')
 const inputSearchTodo = document.querySelector('.form-search input')
 const todosContainer = document.querySelector('.todos-container')
+const todos = document.querySelectorAll('.todos-container li');
 
 const addTodo = (inputValue) => {
     if (inputValue.length) {
@@ -65,3 +66,50 @@ inputSearchTodo.addEventListener('input', event => {
     showTodos(inputValue, todos)
     hideTodos(inputValue, todos)
 })  
+
+function dragStartHandler(event) {
+  const targetTodo = event.target;
+  const text = targetTodo.dataset.todo;
+  const index = [...todos].indexOf(targetTodo);
+  
+  event.dataTransfer.setData('text/plain', text);
+  event.dataTransfer.setData('index', index);
+}
+todos.forEach(todo => {
+  todo.addEventListener('dragstart', dragStartHandler);
+});
+
+const container = document.querySelector('.todos-container');
+
+function dragOverHandler(event) {
+  event.preventDefault();
+}
+
+function dropHandler(event) {
+  event.preventDefault();
+
+  const sourceIndex = event.dataTransfer.getData('index');
+  const targetIndex = [...todos].indexOf(event.target);
+  
+  if (sourceIndex !== targetIndex) {
+    const temp = todos[targetIndex].innerHTML;
+    todos[targetIndex].innerHTML = todos[sourceIndex].innerHTML;
+    todos[sourceIndex].innerHTML = temp;
+  }
+}
+
+container.addEventListener('dragover', dragOverHandler);
+container.addEventListener('drop', dropHandler);
+
+todos.forEach(item => {
+  item.addEventListener('dragstart', dragStart);
+  item.addEventListener('dragend', dragEnd);
+});
+
+function dragStart(event) {
+  event.currentTarget.classList.add('dragging');
+}
+
+function dragEnd(event) {
+  event.currentTarget.classList.remove('dragging');
+}

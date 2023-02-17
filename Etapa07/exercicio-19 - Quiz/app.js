@@ -37,6 +37,7 @@ const scoreCalculator = (event) => {
         left: 0,
         behavior: 'smooth'
     })
+    
     finalScoreContainer.classList.remove('d-none')
 
     let counter = 0
