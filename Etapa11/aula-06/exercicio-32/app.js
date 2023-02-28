@@ -15,7 +15,7 @@
     - Clique no código da API key para copiá-la;
   - O submit do form deve ser feito para o endpoint abaixo. Atente-se para os 2
     [PLACEHOLDERS] que devem ser substituídos:
-    - https://api.giphy.com/v1/gifs/search?api_key=PE8KhDDPOhh5VARMpsJrp92D7RXAkYWF&limit=1&q=[VALOR_INSERIDO_NO_INPUT]
+    - https://api.giphy.com/v1/gifs/search?api_key=APIKEY&limit=1&q=[VALOR_INSERIDO_NO_INPUT]
     - Se quiser testar outras possibilidades, os endpoints da API estão 
       listados na documentação: https://developers.giphy.com/docs/api/endpoint#search
   - Ignore os avisos no console. Para limpá-lo, pressione "ctrl + L".
@@ -24,7 +24,7 @@
 const search = document.querySelector('form')
 const output = document.querySelector('div')
 
-const APIKey = 'PE8KhDDPOhh5VARMpsJrp92D7RXAkYWF'
+const APIKey = 'APIKEY'
 
 const getGIPHYApiUrl = GIFName => 
   `https://api.giphy.com/v1/gifs/search?api_key=${APIKey}&limit=1&q=${GIFName}`
