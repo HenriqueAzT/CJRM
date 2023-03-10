@@ -23,19 +23,31 @@ const showCityWeatherInfo = async (inputValue) => {
     const [{ WeatherText, Temperature, IsDayTime, WeatherIcon }] = await 
         getCityWeather(Key)
     const timeIcon = `<img src="./src/icons/${WeatherIcon}.svg" />`
-
+    
     timeImg.src = IsDayTime ? getImageSRC('day') : getImageSRC('night')
     timeIconContainer.innerHTML = timeIcon
     cityNameContainer.textContent = LocalizedName
     cityWeatherContainer.textContent = WeatherText
     cityTemperatureContainer.textContent = Temperature.Metric.Value
+
+    showCityCard()
+}
+
+const showLocalStorageCity = () => {
+    const city = localStorage.getItem('city')
+    
+    if (city) {
+        showCityWeatherInfo(city)
+    }
 }
 
 cityForm.addEventListener('submit', event => {
     event.preventDefault()
     const inputValue = event.target.city.value
     
-    showCityCard()
     showCityWeatherInfo(inputValue)
+    localStorage.setItem('city', inputValue)
     cityForm.reset()
 })
+
+showLocalStorageCity()
