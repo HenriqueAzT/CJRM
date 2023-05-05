@@ -1,32 +1,32 @@
-class Mammal {
-    constructor (species, name, age) {
-        this.species = species
-        this.name = name
-        this.age = age
-        this.mammaryGland = true
-    }
-
-    incrementAge () {
-        this.age++
-    }
+function Student(name, email) {
+    this.name = name
+    this.email = email
 }
 
-class Lion extends Mammal {
-    constructor (species, name, age, manEater) {
-        super(species, name, age)
-        this.manEater = manEater
-    }
-
-    eatZebras (animals) {
-        return animals.filter(animal => animal.species !== 'zebra')
-    }
+Student.prototype.login = function login() {
+    return `${this.name} fez login`
 }
 
-const zeca = new Mammal('zebra', 'Zeca', 6)
-const pompeu = new Mammal('gnu', 'Pompeu', 5)
-const angus = new Mammal('cavalo', 'Angus', 2)
-const mufasa = new Lion('leão', 'Mufasa', 8, false)
+Student.prototype.comment = function comment() {
+    return `${this.name} comentou`
+}
 
-const animals = [zeca, pompeu, angus]
+function TeacherAssistant(name, email, scheduledWeekPosts) {
+    Student.call(this, name, email)
+    this.scheduledWeekPosts = scheduledWeekPosts
+}
 
-console.log(mufasa);
+TeacherAssistant.prototype = Object.create(Student.prototype)
+
+TeacherAssistant.prototype.giveBadge = function giveBadge ({name}) {
+    return `${this.name} deu uma medalha para ${name}`
+}
+
+const henrique = new Student('Henrique', 'henrique@email.com')
+const jonas = new Student('Jonas', 'jonas@email.com')
+const laura = new TeacherAssistant('Laura', 'laura@gmail.com', false)
+
+console.log(henrique, laura);
+console.log(laura.giveBadge(jonas));
+console.log(laura.login());
+console.log(laura.login === jonas.login);

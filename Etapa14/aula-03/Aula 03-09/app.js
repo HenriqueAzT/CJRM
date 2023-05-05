@@ -1,32 +1,72 @@
-class Mammal {
-    constructor (species, name, age) {
-        this.species = species
-        this.name = name
-        this.age = age
-        this.mammaryGland = true
-    }
+class User {
+    #counter = 0
 
-    incrementAge () {
-        this.age++
+    constructor (name, email) {
+        this.name = name;
+        this.email = email
+    }
+    
+    incrementCounter () {
+        return ++this.#counter
+    }
+    
+}
+
+const createUser = (name, email) => { //O MELHOR PARA SER USADO (factory function)
+    let counter = 0;
+    return {
+        name,
+        email,
+        incrementCounter: () => ++counter
     }
 }
 
-class Lion extends Mammal {
-    constructor (species, name, age, manEater) {
-        super(species, name, age)
-        this.manEater = manEater
-    }
+const user = new User('Henrique', 'henrique@gmail.com')
+const user2 = createUser('Henrique', 'henrique@gmail.com')
 
-    eatZebras (animals) {
-        return animals.filter(animal => animal.species !== 'zebra')
+console.log(user, user2.counter);
+console.log(user.incrementCounter());
+console.log(user2.incrementCounter());
+console.log(user2.incrementCounter());
+console.log(user2.incrementCounter());
+
+// class a {
+//     first () {
+//         return 1
+//     }
+//     second () {
+//         return 'aaaaa'
+//     }
+// }
+// class b extends a {
+//     third () {
+//         return 3
+//     }
+// }
+
+// const obj = new b()
+
+const a = {
+    first () {
+        return 1
     }
 }
 
-const zeca = new Mammal('zebra', 'Zeca', 6)
-const pompeu = new Mammal('gnu', 'Pompeu', 5)
-const angus = new Mammal('cavalo', 'Angus', 2)
-const mufasa = new Lion('leão', 'Mufasa', 8, false)
+const b = {
+    second () {
+        return 'aaaaa'
+    }
+}
 
-const animals = [zeca, pompeu, angus]
+const c = {
+    third () {
+        return 3
+    }
+}
 
-console.log(mufasa);
+const obj = {
+    ...a,
+    ...c
+}
+
+console.log(obj);
