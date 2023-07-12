@@ -11,16 +11,16 @@
 */
 
 const carProto = {
-  getColor () {
-    return this.color
-  }
-}
+  getColor() {
+    return this.color;
+  },
+};
 
-audiA8.color = 'azul'
-volvoS90.color = 'vermelho'
+let audiA8 = Object.create(carProto);
+let volvoS90 = Object.create(carProto);
 
-let audiA8 = Object.create(carProto)
-let volvoS90 = Object.create(carProto)
+audiA8.color = "azul";
+volvoS90.color = "vermelho";
 
 console.log(audiA8.getColor(), volvoS90.getColor());
 console.log(Object.getPrototypeOf(audiA8) === Object.getPrototypeOf(volvoS90));
@@ -38,16 +38,18 @@ console.log(Object.getPrototypeOf(audiA8) === Object.getPrototypeOf(volvoS90));
 */
 
 const movie = {
-  title: 'Forrest Gump',
-  director: 'Robert Zemeckis',
-  starringRole: 'Tom Hanks'
+  title: "Forrest Gump",
+  director: "Robert Zemeckis",
+  starringRole: "Tom Hanks",
+};
+
+function getSummary() {
+  const { title, director, starringRole } = this;
+
+  return `${title} foi dirigido por ${director} e tem ${starringRole} no papel principal.`;
 }
 
-function getSummary () {
-  return `${this.title} foi dirigido por ${this.director} e tem ${this.starringRole} no papel principal.`
-}
-
-console.log(getSummary())
+console.log(getSummary.call(movie));
 
 /*
   03
@@ -61,15 +63,24 @@ console.log(getSummary())
   - Descomente o código e crie a função.
 */
 
-/*
+const createObj = (acc, [key, value]) => {
+  acc[key] = value;
+  return acc;
+};
+
+const arrayToObj = (arr) => arr.reduce(createObj, {});
+
+// function arrayToObj(array) {
+//   return obj = {array}
+// }
+
 console.log(
   arrayToObj([
-    ['prop1', 'value1'], 
-    ['prop2', 'value2'],
-    ['prop3', 'value3']
+    ["prop1", "value1"],
+    ["prop2", "value2"],
+    ["prop3", "value3"],
   ])
-)
-*/
+);
 
 /*
   04
@@ -77,65 +88,65 @@ console.log(
   - Refatore as classes abaixo para factory functions.
 */
 
-const formatTimeUnits = units => units
-  .map(unit => unit < 10 ? `0${unit}` : unit)
+const formatTimeUnits = (units) =>
+  units.map((unit) => (unit < 10 ? `0${unit}` : unit));
 
 const getTime = () => {
-  const date = new Date()
-  const hours = date.getHours()
-  const minutes = date.getMinutes()
-  const seconds = date.getSeconds()
+  const date = new Date();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
 
-  return [hours, minutes, seconds]
-}
+  return [hours, minutes, seconds];
+};
 
-const getFormattedTime = template => {
-  const [hours, minutes, seconds] = getTime()
-  const formattedTime = formatTimeUnits([hours, minutes, seconds])
+const getFormattedTime = (template) => {
+  const [hours, minutes, seconds] = getTime();
+  const formattedTime = formatTimeUnits([hours, minutes, seconds]);
 
   return template
-    .split(':')
+    .split(":")
     .map((_, index) => formattedTime[index])
-    .join(':')
-}
+    .join(":");
+};
 
 class Clock {
-  constructor ({ template }) {
-    this.template = template
+  constructor({ template }) {
+    this.template = template;
   }
 
-  render () {
-    const formattedTime = getFormattedTime(this.template)
-    console.log(formattedTime)
+  render() {
+    const formattedTime = getFormattedTime(this.template);
+    console.log(formattedTime);
   }
 
-  start () {
-    const oneSecond = 1000
+  start() {
+    const oneSecond = 1000;
 
-    this.render()
-    this.timer = setInterval(() => this.render(), oneSecond)
+    this.render();
+    this.timer = setInterval(() => this.render(), oneSecond);
   }
 
-  stop () {
-    clearInterval(this.timer)
+  stop() {
+    clearInterval(this.timer);
   }
 }
 
 class ExtendedClock extends Clock {
-  constructor (options) {
-    super(options)
-    
-    const { precision = 1000 } = options
-    this.precision = precision
+  constructor(options) {
+    super(options);
+
+    const { precision = 1000 } = options;
+    this.precision = precision;
   }
 
-  start () {
-    this.render()
-    this.timer = setInterval(() => this.render(), this.precision)
+  start() {
+    this.render();
+    this.timer = setInterval(() => this.render(), this.precision);
   }
 }
 
-const clock = new ExtendedClock({ template: 'h:m:s', precision: 1000 })
+const clock = new ExtendedClock({ template: "h:m:s", precision: 1000 });
 
 // clock.start()
 
@@ -178,8 +189,6 @@ const clock = new ExtendedClock({ template: 'h:m:s', precision: 1000 })
         - download, com o valor 'table.csv'.
 */
 
-
-
 /*
   06
   
@@ -192,8 +201,6 @@ const clock = new ExtendedClock({ template: 'h:m:s', precision: 1000 })
   - O procedimento é o mesmo mostrado nas aulas da etapa em que construímos 
     essa aplicação.
 */
-
-
 
 /*
   07
