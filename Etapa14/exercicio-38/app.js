@@ -22,8 +22,8 @@ let volvoS90 = Object.create(carProto);
 audiA8.color = "azul";
 volvoS90.color = "vermelho";
 
-console.log(audiA8.getColor(), volvoS90.getColor());
-console.log(Object.getPrototypeOf(audiA8) === Object.getPrototypeOf(volvoS90));
+// console.log(audiA8.getColor(), volvoS90.getColor());
+// console.log(Object.getPrototypeOf(audiA8) === Object.getPrototypeOf(volvoS90));
 
 /*
   02
@@ -43,13 +43,13 @@ const movie = {
   starringRole: "Tom Hanks",
 };
 
-function getSummary() {
-  const { title, director, starringRole } = this;
+// function getSummary() {
+//   const { title, director, starringRole } = this;
 
-  return `${title} foi dirigido por ${director} e tem ${starringRole} no papel principal.`;
-}
+//   return `${title} foi dirigido por ${director} e tem ${starringRole} no papel principal.`;
+// }
 
-console.log(getSummary.call(movie));
+// console.log(getSummary.call(movie));
 
 /*
   03
@@ -70,17 +70,13 @@ const createObj = (acc, [key, value]) => {
 
 const arrayToObj = (arr) => arr.reduce(createObj, {});
 
-// function arrayToObj(array) {
-//   return obj = {array}
-// }
-
-console.log(
-  arrayToObj([
-    ["prop1", "value1"],
-    ["prop2", "value2"],
-    ["prop3", "value3"],
-  ])
-);
+// console.log(
+//   arrayToObj([
+//     ["prop1", "value1"],
+//     ["prop2", "value2"],
+//     ["prop3", "value3"],
+//   ])
+// );
 
 /*
   04
@@ -88,8 +84,9 @@ console.log(
   - Refatore as classes abaixo para factory functions.
 */
 
-const formatTimeUnits = (units) =>
-  units.map((unit) => (unit < 10 ? `0${unit}` : unit));
+const concatenateZero = (unit) => (unit < 10 ? `0${unit}` : unit)
+
+const formatTimeUnits = (units) => units.map(concatenateZero);
 
 const getTime = () => {
   const date = new Date();
@@ -103,52 +100,47 @@ const getTime = () => {
 const getFormattedTime = (template) => {
   const [hours, minutes, seconds] = getTime();
   const formattedTime = formatTimeUnits([hours, minutes, seconds]);
+  const getTimeAsArray = (_, index) => formattedTime[index]
 
   return template
     .split(":")
-    .map((_, index) => formattedTime[index])
+    .map(getTimeAsArray)
     .join(":");
 };
 
-class Clock {
-  constructor({ template }) {
-    this.template = template;
-  }
-
+const makeClock = ({template}) => ({
+  template,
   render() {
-    const formattedTime = getFormattedTime(this.template);
+    const formattedTime = getFormattedTime(this.template)
     console.log(formattedTime);
-  }
-
+  },
   start() {
-    const oneSecond = 1000;
+    const oneSecond = 1000
 
-    this.render();
-    this.timer = setInterval(() => this.render(), oneSecond);
-  }
-
+    this.render()
+    this.timer = setInterval(() => this.render(), oneSecond)
+  },
   stop() {
-    clearInterval(this.timer);
+    clearInterval(this.timer)
   }
-}
+})
 
-class ExtendedClock extends Clock {
-  constructor(options) {
-    super(options);
-
-    const { precision = 1000 } = options;
-    this.precision = precision;
-  }
-
+const makeExtendedClock = ({template, precision = 1000}) => ({
+  precision,
+  ...makeClock({template}),
   start() {
-    this.render();
-    this.timer = setInterval(() => this.render(), this.precision);
+    this.render()
+    this.timer = setInterval(() => this.render(), this.precision)
   }
-}
+})
 
-const clock = new ExtendedClock({ template: "h:m:s", precision: 1000 });
+const clockFunc = makeClock({template: 'h:m:s'})
+const extendedClock = makeExtendedClock({template:'h:m:s', presicion: 1000});
 
-// clock.start()
+clockFunc.start()
+clockFunc.stop()
+extendedClock.start()
+extendedClock.stop()
 
 /*
   05
