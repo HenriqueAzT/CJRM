@@ -137,10 +137,10 @@ const makeExtendedClock = ({template, precision = 1000}) => ({
 const clockFunc = makeClock({template: 'h:m:s'})
 const extendedClock = makeExtendedClock({template:'h:m:s', presicion: 1000});
 
-clockFunc.start()
-clockFunc.stop()
-extendedClock.start()
-extendedClock.stop()
+// clockFunc.start()
+// clockFunc.stop()
+// extendedClock.start()
+// extendedClock.stop()
 
 /*
   05
@@ -180,6 +180,44 @@ extendedClock.stop()
           CSV que você criou;
         - download, com o valor 'table.csv'.
 */
+const exportBtn = document.querySelector('[data-js="export-table-btn"]')
+const row = document.getElementsByTagName('tr')
+
+
+const tableToCSV = () => {
+  let csvData = []
+  for (let i = 0; i < row.length; i++) {
+    const col = row[i].querySelectorAll('td,th');
+    const csvRow = []
+    
+    for (let j = 0; j < col.length; j++) {
+      csvRow.push(col[j].innerHTML)
+    }
+    
+    csvData.push(csvRow.join(","))
+  }
+  csvData = csvData.join('\n')
+  downloadCSVFile(csvData);
+}
+
+const downloadCSVFile = (csvData) => {
+  
+  csvFile = new Blob([csvData], { type: "text/csv" });
+  
+  var tempLink = document.createElement('a');
+  
+  tempLink.download = "GOTY.csv";
+  var url = window.URL.createObjectURL(csvFile);
+  tempLink.href = url;
+  
+  tempLink.style.display = "none";
+  document.body.appendChild(tempLink);
+  
+  tempLink.click();
+  document.body.removeChild(tempLink);
+}
+
+exportBtn.addEventListener('click', tableToCSV)
 
 /*
   06
