@@ -10,17 +10,17 @@
   - Teste o método getColor do prototype dos carros.
 */
 
-const carProto = {
-  getColor() {
-    return this.color;
-  },
-};
+// const carProto = {
+//   getColor() {
+//     return this.color;
+//   },
+// };
 
-let audiA8 = Object.create(carProto);
-let volvoS90 = Object.create(carProto);
+// let audiA8 = Object.create(carProto);
+// let volvoS90 = Object.create(carProto);
 
-audiA8.color = "azul";
-volvoS90.color = "vermelho";
+// audiA8.color = "azul";
+// volvoS90.color = "vermelho";
 
 // console.log(audiA8.getColor(), volvoS90.getColor());
 // console.log(Object.getPrototypeOf(audiA8) === Object.getPrototypeOf(volvoS90));
@@ -37,11 +37,11 @@ volvoS90.color = "vermelho";
     se necessário.
 */
 
-const movie = {
-  title: "Forrest Gump",
-  director: "Robert Zemeckis",
-  starringRole: "Tom Hanks",
-};
+// const movie = {
+//   title: "Forrest Gump",
+//   director: "Robert Zemeckis",
+//   starringRole: "Tom Hanks",
+// };
 
 // function getSummary() {
 //   const { title, director, starringRole } = this;
@@ -63,12 +63,12 @@ const movie = {
   - Descomente o código e crie a função.
 */
 
-const createObj = (acc, [key, value]) => {
-  acc[key] = value;
-  return acc;
-};
+// const createObj = (acc, [key, value]) => {
+//   acc[key] = value;
+//   return acc;
+// };
 
-const arrayToObj = (arr) => arr.reduce(createObj, {});
+// const arrayToObj = (arr) => arr.reduce(createObj, {});
 
 // console.log(
 //   arrayToObj([
@@ -84,58 +84,58 @@ const arrayToObj = (arr) => arr.reduce(createObj, {});
   - Refatore as classes abaixo para factory functions.
 */
 
-const concatenateZero = (unit) => (unit < 10 ? `0${unit}` : unit)
+// const concatenateZero = (unit) => (unit < 10 ? `0${unit}` : unit)
 
-const formatTimeUnits = (units) => units.map(concatenateZero);
+// const formatTimeUnits = (units) => units.map(concatenateZero);
 
-const getTime = () => {
-  const date = new Date();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
+// const getTime = () => {
+//   const date = new Date();
+//   const hours = date.getHours();
+//   const minutes = date.getMinutes();
+//   const seconds = date.getSeconds();
 
-  return [hours, minutes, seconds];
-};
+//   return [hours, minutes, seconds];
+// };
 
-const getFormattedTime = (template) => {
-  const [hours, minutes, seconds] = getTime();
-  const formattedTime = formatTimeUnits([hours, minutes, seconds]);
-  const getTimeAsArray = (_, index) => formattedTime[index]
+// const getFormattedTime = (template) => {
+//   const [hours, minutes, seconds] = getTime();
+//   const formattedTime = formatTimeUnits([hours, minutes, seconds]);
+//   const getTimeAsArray = (_, index) => formattedTime[index]
 
-  return template
-    .split(":")
-    .map(getTimeAsArray)
-    .join(":");
-};
+//   return template
+//     .split(":")
+//     .map(getTimeAsArray)
+//     .join(":");
+// };
 
-const makeClock = ({template}) => ({
-  template,
-  render() {
-    const formattedTime = getFormattedTime(this.template)
-    console.log(formattedTime);
-  },
-  start() {
-    const oneSecond = 1000
+// const makeClock = ({template}) => ({
+//   template,
+//   render() {
+//     const formattedTime = getFormattedTime(this.template)
+//     console.log(formattedTime);
+//   },
+//   start() {
+//     const oneSecond = 1000
 
-    this.render()
-    this.timer = setInterval(() => this.render(), oneSecond)
-  },
-  stop() {
-    clearInterval(this.timer)
-  }
-})
+//     this.render()
+//     this.timer = setInterval(() => this.render(), oneSecond)
+//   },
+//   stop() {
+//     clearInterval(this.timer)
+//   }
+// })
 
-const makeExtendedClock = ({template, precision = 1000}) => ({
-  precision,
-  ...makeClock({template}),
-  start() {
-    this.render()
-    this.timer = setInterval(() => this.render(), this.precision)
-  }
-})
+// const makeExtendedClock = ({template, precision = 1000}) => ({
+//   precision,
+//   ...makeClock({template}),
+//   start() {
+//     this.render()
+//     this.timer = setInterval(() => this.render(), this.precision)
+//   }
+// })
 
-const clockFunc = makeClock({template: 'h:m:s'})
-const extendedClock = makeExtendedClock({template:'h:m:s', presicion: 1000});
+// const clockFunc = makeClock({template: 'h:m:s'})
+// const extendedClock = makeExtendedClock({template:'h:m:s', presicion: 1000});
 
 // clockFunc.start()
 // clockFunc.stop()
@@ -180,44 +180,44 @@ const extendedClock = makeExtendedClock({template:'h:m:s', presicion: 1000});
           CSV que você criou;
         - download, com o valor 'table.csv'.
 */
-const exportBtn = document.querySelector('[data-js="export-table-btn"]')
-const row = document.getElementsByTagName('tr')
+// const exportBtn = document.querySelector('[data-js="export-table-btn"]')
+// const row = document.getElementsByTagName('tr')
 
 
-const tableToCSV = () => {
-  let csvData = []
-  for (let i = 0; i < row.length; i++) {
-    const col = row[i].querySelectorAll('td,th');
-    const csvRow = []
+// const tableToCSV = () => {
+//   let csvData = []
+//   for (let i = 0; i < row.length; i++) {
+//     const col = row[i].querySelectorAll('td,th');
+//     const csvRow = []
     
-    for (let j = 0; j < col.length; j++) {
-      csvRow.push(col[j].innerHTML)
-    }
+//     for (let j = 0; j < col.length; j++) {
+//       csvRow.push(col[j].innerHTML)
+//     }
     
-    csvData.push(csvRow.join(","))
-  }
-  csvData = csvData.join('\n')
-  downloadCSVFile(csvData);
-}
+//     csvData.push(csvRow.join(","))
+//   }
+//   csvData = csvData.join('\n')
+//   downloadCSVFile(csvData);
+// }
 
-const downloadCSVFile = (csvData) => {
+// const downloadCSVFile = (csvData) => {
   
-  csvFile = new Blob([csvData], { type: "text/csv" });
+//   csvFile = new Blob([csvData], { type: "text/csv" });
   
-  var tempLink = document.createElement('a');
+//   var tempLink = document.createElement('a');
   
-  tempLink.download = "GOTY.csv";
-  var url = window.URL.createObjectURL(csvFile);
-  tempLink.href = url;
+//   tempLink.download = "GOTY.csv";
+//   var url = window.URL.createObjectURL(csvFile);
+//   tempLink.href = url;
   
-  tempLink.style.display = "none";
-  document.body.appendChild(tempLink);
+//   tempLink.style.display = "none";
+//   document.body.appendChild(tempLink);
   
-  tempLink.click();
-  document.body.removeChild(tempLink);
-}
+//   tempLink.click();
+//   document.body.removeChild(tempLink);
+// }
 
-exportBtn.addEventListener('click', tableToCSV)
+// exportBtn.addEventListener('click', tableToCSV)
 
 /*
   06
@@ -273,3 +273,66 @@ exportBtn.addEventListener('click', tableToCSV)
   PS: o desafio aqui é você implementar essa aplicação sozinho(a), antes 
   de ver as próximas aulas, ok? =)
 */
+
+const currencyOneEl = document.querySelector('[data-js="currency-one"]')
+const currencyTwoEl = document.querySelector('[data-js="currency-two"]')
+const currenciesEl = document.querySelector('[data-js="currencies-container"]')
+
+const url = 'https://v6.exchangerate-api.com/v6/8331254bace5b3acae934f7d/latest/USD'
+
+const getErrorMessage = errorType => ({
+  'unsuported-code': 'A moeda não existe em nosso banco de dados',
+  'malformed-request': 'O endpoint precisa seguir a seguinte estrutura: https://www.exchangerate-api.com/docs/standard-requests',
+  'invalid-key': 'Chave da API não está valida',
+  'inactive-account': 'Endereço de e-mail não foi confirmado',
+  'quota-reached': 'Sua conta chegou no limite de requests permitidos no seu plano'
+})[errorType] || 'Não foi possível obter as informações'
+
+const fetchExchangeRate = async () => {
+  try {
+    const response = await fetch(url)
+
+    if (!response.ok) {
+      throw new Error('Sua conexão falhou. Não foi possível obter as informações')
+    }
+
+    const exchangeRateData = await response.json();
+
+    if (exchangeRateData.result === 'error'){
+      throw new Error(getErrorMessage(exchangeRateData['error-type']))
+    }
+  } catch (err) {
+    alert(err.message)
+    const div = document.createElement('div')
+    const button = document.createElement('button')
+
+    div.textContent = err.message
+    div.classList.add('alert', 'alert-warning', 'alert-dismissible', 'fade', 'show')
+    div.setAttribute('role', 'alert')
+    button.classList.add('btn-close')
+    button.setAttribute('type', 'button')
+    button.setAttribute('Atrribute', 'Close')
+
+    button.addEventListener('click', () => {
+      div.remove()
+    })
+
+    div.appendChild(button)
+    currenciesEl.insertAdjacentElement('afterend', div)
+
+    /*
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Mensagem do erro
+        <button type="button" class="btn-close" aria-label="Close"></button>
+      </div>
+    */
+  }
+}
+
+fetchExchangeRate()
+
+currencyOneEl.innerHTML = `<option></option>`
+currencyTwoEl.innerHTML = `<option></option>`
+
+const convertedValueOutput = document.querySelector('[data-js="converted-value"]')
+const valueToConvert = document.querySelector('[data-js="currency-one-times"]')
