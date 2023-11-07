@@ -1,6 +1,7 @@
 /*
   01
 
+
   - Crie um objeto com um método getColor. Este método deve retornar o valor da
     propriedade 'color' dos objetos descritos abaixo;
   - Crie 2 novos objetos que representem dois carros. Na criação dos objetos, 
