@@ -1,6 +1,7 @@
 /*
   01
 
+
   - Crie um objeto com um método getColor. Este método deve retornar o valor da
     propriedade 'color' dos objetos descritos abaixo;
   - Crie 2 novos objetos que representem dois carros. Na criação dos objetos, 
@@ -319,7 +320,7 @@ const state = (() => { // IIFE Immediately invoqued expression
   }
 })()
 
-const APIKey = '8331254bace5b3acae934f7d'
+const APIKey = 'APIKEY'
 const getUrl = currency => 
   `https://v6.exchangerate-api.com/v6/${APIKey}/latest/${currency}`
 
