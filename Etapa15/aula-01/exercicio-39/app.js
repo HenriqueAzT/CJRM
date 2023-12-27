@@ -46,36 +46,36 @@ console.log(sum(...numbers3))
     utilizando a classe "active".
 */
 
-const accordion = document.querySelector('[data-js="accordion"]')
+// const accordion = document.querySelector('[data-js="accordion"]')
 
-accordion.addEventListener('click', e => {
-  const accordionHeaderId = e.target.dataset.accordionHeader
-  const clickedAccordeonHeader = 
-  document.querySelector(`[data-accordion-header="${accordionHeaderId}"]`)
-  const accordionItemToBeOpened = 
-  document.querySelector(`[data-accordion-body="${accordionHeaderId}"]`)
+// accordion.addEventListener('click', e => {
+//   const accordionHeaderId = e.target.dataset.accordionHeader
+//   const clickedAccordeonHeader = 
+//   document.querySelector(`[data-accordion-header="${accordionHeaderId}"]`)
+//   const accordionItemToBeOpened = 
+//   document.querySelector(`[data-accordion-body="${accordionHeaderId}"]`)
 
-  const accordionHeaderToBeClosed = Array
-    .from(document.querySelectorAll('[data-js="accordion-header"]'))
-    .filter(accordionHeader => accordionHeader !== clickedAccordeonHeader)
-    .find(accordionHeader => accordionHeader.classList.contains('active'))
+//   const accordionHeaderToBeClosed = Array
+//     .from(document.querySelectorAll('[data-js="accordion-header"]'))
+//     .filter(accordionHeader => accordionHeader !== clickedAccordeonHeader)
+//     .find(accordionHeader => accordionHeader.classList.contains('active'))
 
-  if(!e.target.dataset.accordionHeader) {
-    return
-  }
+//   if(!e.target.dataset.accordionHeader) {
+//     return
+//   }
 
-  if (accordionHeaderToBeClosed) {
-    const accordionHeaderId = accordionHeaderToBeClosed.dataset.accordionHeader
-    const accordionBodyToBeClosed = 
-      document.querySelector(`[data-accordion-body="${accordionHeaderId}"]`)
+//   if (accordionHeaderToBeClosed) {
+//     const accordionHeaderId = accordionHeaderToBeClosed.dataset.accordionHeader
+//     const accordionBodyToBeClosed = 
+//       document.querySelector(`[data-accordion-body="${accordionHeaderId}"]`)
     
-    accordionHeaderToBeClosed.classList.remove('active')
-    accordionBodyToBeClosed.classList.remove('active')
-  }
+//     accordionHeaderToBeClosed.classList.remove('active')
+//     accordionBodyToBeClosed.classList.remove('active')
+//   }
 
-  clickedAccordeonHeader.classList.toggle('active')
-  accordionItemToBeOpened.classList.toggle('active')
-})
+//   clickedAccordeonHeader.classList.toggle('active')
+//   accordionItemToBeOpened.classList.toggle('active')
+// })
 
 /*
   03
@@ -188,7 +188,35 @@ console.log(getIndexesOfCharacter(aString, 'o'))
       ela já tem + 1 e faça characterIndex receber 0.
 */
 
+// const typing = document.querySelector('[data-js="typing"]')
 
+// const messages = ['Sou fluente em JS', 'construo aplicações web com JS puro']
+
+// let messageIndex = 0
+// let characterIndex = 0
+// let currentMessage = ''
+// let currentCharacters = ''
+
+// const type = () => {
+//   const shouldTypeFirstMessage = messageIndex === messages.length
+
+//   if (shouldTypeFirstMessage){
+//     messageIndex = 0
+//   }
+
+//   currentMessage = messages[messageIndex]
+//   currentCharacters = currentMessage.slice(0, characterIndex++)
+//   typing.textContent = currentCharacters
+
+//   const shouldChangeMessageToBeTyped = currentCharacters.length === currentMessage.length
+
+//   if (shouldChangeMessageToBeTyped) {
+//     messageIndex++
+//     characterIndex = 0
+//   }
+// }
+
+// setInterval(type, 200)
 
 /*
   06
@@ -211,7 +239,17 @@ const wrongDataFormat = [
   'azul-P'
 ]
 
+const correctDataFormat = wrongDataFormat.reduce((acc, colorAndSize) => {
+  const [color, size] = colorAndSize.split('-')
 
+  acc[color] = acc[color] || {}
+  acc[color][size] = acc[color][size] || 0 
+  acc[color][size] += 1
+
+  return acc
+}, {})
+
+console.log(correctDataFormat);
 
 /*
   {
