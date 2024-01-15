@@ -100,7 +100,7 @@ log(getStatusCount(orders))
 /*
   05
 
-  - Refatore o código da última aula.
+  - Refatore o código da última aula. (Aula 02-07 - Etapa 15)
 
   Algumas dicas do que você pode implementar:
     - Funções de responsabilidade única;

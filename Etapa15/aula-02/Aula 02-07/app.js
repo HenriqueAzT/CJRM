@@ -27,73 +27,72 @@ const formAddGame = document.querySelector('[data-js="add-game-form"]');
 const gamesList = document.querySelector('[data-js="games-list"]');
 const buttonUnsub = document.querySelector('[data-js="unsub"]')
 
-const unsubscribe = onSnapshot(collectionGames, (querySnapshot) => {
-  if (!querySnapshot.metadata.hasPendingWrites) {
-    const gamesLis = querySnapshot.docs.reduce((acc, doc) => {
-      const { title, developedBy, createdAt } = doc.data();
+const log = (...value) => console.log(...value) 
 
-      acc += `<li data-id="${doc.id}" class="my-4">
+const getFormattedDate = createdAt => new Intl
+  .DateTimeFormat('pt-br', {dateStyle: 'short', timeStyle:'short'})
+  .format(createdAt.toDate())
+
+const renderGamesList = (querySnapshot) => {
+  if (!querySnapshot.metadata.hasPendingWrites) {
+    gamesList.innerHTML = querySnapshot.docs.reduce((acc, doc) => {
+      const [id, { title, developedBy, createdAt }] = [doc.id, doc.data()]
+
+      return `${acc}<li data-id="${id}" class="my-4">
                   <h5>${title}</h5>
                   
                   <ul>
                     <li>Desenvolvido por ${developedBy}</li>
-                    ${createdAt ? `<li>Adicionado ao banco em ${createdAt.toDate()}</li>`: ""}
+                    ${createdAt ? `<li>Adicionado ao banco em ${getFormattedDate(createdAt)}</li>`: ""}
                   </ul>
       
-                  <button data-remove="${doc.id}" class="btn btn-danger btn-sm">Remover</button>
+                  <button data-remove="${id}" class="btn btn-danger btn-sm">Remover</button>
               </li>`;
-
-      return acc;
     }, "");
-
-    gamesList.innerHTML = gamesLis;
   }
-});
+}
 
-// getDocs(collectionGames)
-//   .then(querySnapshot => {
-//     const gamesLis = querySnapshot.docs.reduce((acc, doc) => {
-//         const { title, developedBy, createdAt } = doc.data()
+const to = promise => promise
+  .then(result => [null, result])
+  .catch(error => [error])
 
-//         acc += `<li data-id="${doc.id}" class="my-4">
-//             <h5>${title}</h5>
-
-//             <ul>
-//             <li>Desenvolvido por ${developedBy}</li>
-//             <li>Adicionado no banco em ${createdAt.toDate()}</li>
-//             </ul>
-
-//             <button data-remove="${doc.id}" class="btn btn-danger btn-sm">Remover</button>
-//         </li>`
-
-//         return acc
-//     }, '')
-
-//     gamesList.innerHTML = gamesLis
-//     console.log(gamesLis);
-//   })
-//   .catch((error) => console.log('Error getting documents: ', error))
-
-formAddGame.addEventListener("submit", (e) => {
+const addGame = async e => {
   e.preventDefault();
 
-  addDoc(collectionGames, {
+  const [error, doc] = await to(addDoc(collectionGames, {
     title: e.target.title.value,
     developedBy: e.target.developer.value,
     createdAt: serverTimestamp(),
-  })
-    .then((doc) => console.log("doc criado com o ID", doc.id))
-    .catch(console.log);
-});
+  }))
 
-gamesList.addEventListener("click", (e) => {
+  if (error) {
+    return log(error)
+  }
+
+  log("doc criado com o ID", doc.id);
+      e.target.reset()
+      e.target.title.focus()
+}
+
+const deleteGame = async e => {
   const idRemoveButton = e.target.dataset.remove;
 
-  if (idRemoveButton) {
-    deleteDoc(doc(db, "games", idRemoveButton))
-      .then(() => console.log("Jogo removido com sucesso"))
-      .catch(console.log);
+  if (!idRemoveButton) {
+    return
   }
-});
 
+  const [error] = await to(deleteDoc(doc(db, "games", idRemoveButton)))
+
+  if (error) {
+    return log(error)    
+  }
+
+  log("Jogo removido com sucesso")
+}
+
+const handleSnapshotError = e => log(e)
+
+const unsubscribe = onSnapshot(collectionGames, renderGamesList, handleSnapshotError);
+gamesList.addEventListener("click", deleteGame)
+formAddGame.addEventListener("submit", addGame)
 buttonUnsub.addEventListener('click', unsubscribe)
