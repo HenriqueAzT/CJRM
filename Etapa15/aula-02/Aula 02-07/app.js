@@ -33,24 +33,61 @@ const getFormattedDate = createdAt => new Intl
   .DateTimeFormat('pt-br', {dateStyle: 'short', timeStyle:'short'})
   .format(createdAt.toDate())
 
-const renderGamesList = (querySnapshot) => {
-  if (!querySnapshot.metadata.hasPendingWrites) {
-    gamesList.innerHTML = querySnapshot.docs.reduce((acc, doc) => {
-      const [id, { title, developedBy, createdAt }] = [doc.id, doc.data()]
+const sanitize = string => DOMPurify.sanitize(string)
 
-      return `${acc}<li data-id="${id}" class="my-4">
-                  <h5>${title}</h5>
-                  
-                  <ul>
-                    <li>Desenvolvido por ${developedBy}</li>
-                    ${createdAt ? `<li>Adicionado ao banco em ${getFormattedDate(createdAt)}</li>`: ""}
-                  </ul>
-      
-                  <button data-remove="${id}" class="btn btn-danger btn-sm">Remover</button>
-              </li>`;
-    }, "");
+const renderGame = docChange => {
+  const [id, { title, developedBy, createdAt }] = [
+    docChange.doc.id,
+    docChange.doc.data(),
+  ];
+
+  const liGame = document.createElement("li");
+  liGame.setAttribute("data-id", id);
+  liGame.setAttribute("class", "my-4");
+
+  const h5 = document.createElement("h5");
+  h5.textContent = sanitize(title);
+
+  const ul = document.createElement("ul");
+
+  const liDevelopedBy = document.createElement("li");
+  liDevelopedBy.textContent = `Desenvolvido por ${sanitize(developedBy)}`;
+
+  if (createdAt) {
+    const liDate = document.createElement("li");
+    liDate.textContent = `Adicionado no banco em ${getFormattedDate(
+      createdAt
+    )}`;
+    ul.appendChild(liDate);
   }
+
+  const button = document.createElement("button");
+  button.textContent = "Remover";
+  button.setAttribute("data-remove", id);
+  button.setAttribute("class", "btn btn-danger btn-sm");
+
+  ul.appendChild(liDevelopedBy);
+  liGame.append(h5, ul, button);
+  gamesList.append(liGame);
 }
+
+const renderGamesList = querySnapshot => {
+  if (querySnapshot.metadata.hasPendingWrites) {
+    return;
+  }
+  
+  querySnapshot.docChanges().forEach((docChange) => {
+    if (docChange.type === "removed") {
+      const liGame = document.querySelector(`[data-id="${docChange.doc.id}"]`);
+      liGame.remove();
+
+      return;
+    }
+
+    renderGame(docChange)
+  });
+}
+
 
 const to = promise => promise
   .then(result => [null, result])
@@ -60,8 +97,8 @@ const addGame = async e => {
   e.preventDefault();
 
   const [error, doc] = await to(addDoc(collectionGames, {
-    title: e.target.title.value,
-    developedBy: e.target.developer.value,
+    title: sanitize(e.target.title.value),
+    developedBy: sanitize(e.target.developer.value),
     createdAt: serverTimestamp(),
   }))
 
@@ -84,7 +121,7 @@ const deleteGame = async e => {
   const [error] = await to(deleteDoc(doc(db, "games", idRemoveButton)))
 
   if (error) {
-    return log(error)    
+    return log(error)
   }
 
   log("Jogo removido com sucesso")
